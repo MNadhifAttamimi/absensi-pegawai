@@ -1,0 +1,28 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "absensi pegawai",
+    "dateExported": "2024-03-28T04:33:55.008Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "70a7c6d5-06fc-41c0-9427-5158cb10fe78",
+            "colId": "6903d6a8-f79c-48b5-a1e1-68fa43d34d37",
+            "containerId": "",
+            "name": "absen",
+            "url": "http://localhost:3000/api/pegawai",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-03-28T04:31:24.682Z",
+            "modified": "2024-03-28T04:31:50.888Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nama\" : \"Junaidol\",\n  \"nip\" : 121211342\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

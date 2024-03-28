@@ -1,5 +1,3 @@
-// pages/api/pegawai.js
-
 // Import modul atau fungsi yang Anda butuhkan dari db.js
 import { pool } from '../utils/db';
 
@@ -7,8 +5,13 @@ import { pool } from '../utils/db';
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
-            // Lakukan kueri ke basis data untuk mendapatkan daftar pegawai
-            const result = await pool.query('SELECT * FROM pegawai');
+            // Mendapatkan tanggal dari query string
+            const tanggal = req.query.tanggal;
+
+            // Lakukan kueri ke basis data untuk mendapatkan daftar pegawai berdasarkan tanggal
+            const result = await pool.query('SELECT * FROM pegawai WHERE tanggal_hadir::date = $1', [tanggal]);
+
+            // Respon dengan data pegawai yang ditemukan
             res.status(200).json(result.rows);
         } catch (error) {
             console.error('Error fetching pegawai:', error);
@@ -17,7 +20,7 @@ export default async function handler(req, res) {
     } else if (req.method === 'POST') {
         try {
             // Mendapatkan data pegawai dari body permintaan
-            const { nama, nip, status } = req.body;
+            const { nama, nip } = req.body;
 
             // Memastikan data nama dan NIP tidak kosong
             if (!nama || !nip) {
@@ -25,7 +28,7 @@ export default async function handler(req, res) {
             }
 
             // Lakukan kueri untuk menambahkan pegawai ke dalam basis data
-            const result = await pool.query('INSERT INTO pegawai (nama, nip, status) VALUES ($1, $2, $3) RETURNING *', [nama, nip, status]);
+            const result = await pool.query('INSERT INTO pegawai (nama, nip, tanggal_hadir, jam_hadir, status) VALUES ($1, $2, CURRENT_DATE, CURRENT_TIME, $3) RETURNING *', [nama, nip, 'hadir']);
 
             // Respon dengan data pegawai yang telah ditambahkan
             res.status(201).json(result.rows[0]);
